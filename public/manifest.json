@@ -1,0 +1,52 @@
+{
+  "name": "SingShot - AI-Powered Karaoke Moments",
+  "short_name": "SingShot",
+  "description": "Capture your karaoke moment, let AI create the perfect caption, and share it instantly on our live gallery.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F0F23",
+  "theme_color": "#9333ea",
+  "orientation": "portrait",
+  "categories": ["entertainment", "photo", "social"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-mobile.png",
+      "sizes": "320x568",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Take SingShot",
+      "short_name": "Capture",
+      "description": "Quickly capture a new karaoke moment",
+      "url": "/?action=capture",
+      "icons": [
+        {
+          "src": "/favicon.ico",
+          "sizes": "96x96"
+        }
+      ]
+    },
+    {
+      "name": "Live Gallery",
+      "short_name": "Gallery",
+      "description": "View live gallery of karaoke moments",
+      "url": "/gallery",
+      "icons": [
+        {
+          "src": "/favicon.ico",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

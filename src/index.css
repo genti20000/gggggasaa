@@ -2,41 +2,65 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* SingShot Design System - Vibrant Karaoke Party Theme
+All colors MUST be HSL. Electric, neon-inspired palette for nightclub energy.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dark theme base - nightclub atmosphere */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 10% 8%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 10% 8%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Electric Purple Primary - main brand color */
+    --primary: 280 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 280 100% 70%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Electric Cyan Secondary */
+    --secondary: 190 100% 60%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted variants */
+    --muted: 240 10% 15%;
+    --muted-foreground: 240 5% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Gold accent for special highlights */
+    --accent: 45 100% 65%;
+    --accent-foreground: 240 10% 3.9%;
 
+    /* Success and error states */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
+    --success: 120 60% 50%;
+    --success-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Interface elements */
+    --border: 240 10% 20%;
+    --input: 240 10% 15%;
+    --ring: 280 100% 60%;
 
-    --radius: 0.5rem;
+    /* Design system extensions */
+    --gradient-primary: linear-gradient(135deg, hsl(280 100% 60%), hsl(190 100% 60%));
+    --gradient-secondary: linear-gradient(45deg, hsl(280 100% 60%), hsl(45 100% 65%));
+    --gradient-party: linear-gradient(135deg, hsl(280 100% 60%) 0%, hsl(315 100% 65%) 25%, hsl(190 100% 60%) 50%, hsl(45 100% 65%) 75%, hsl(280 100% 60%) 100%);
+    
+    /* Neon glow effects */
+    --shadow-neon: 0 0 20px hsl(280 100% 60% / 0.5);
+    --shadow-cyan: 0 0 20px hsl(190 100% 60% / 0.5);
+    --shadow-gold: 0 0 20px hsl(45 100% 65% / 0.5);
+    
+    /* Smooth transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -100,6 +124,147 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground overflow-x-hidden;
+  }
+}
+
+@layer components {
+  /* Sparkly animated background */
+  .sparkle-bg {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .sparkle-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+      radial-gradient(circle at 20% 30%, hsl(280 100% 60% / 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(190 100% 60% / 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 40% 70%, hsl(45 100% 65% / 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, hsl(315 100% 65% / 0.2) 0%, transparent 50%);
+    animation: sparkle-move 20s ease-in-out infinite;
+  }
+
+  /* Neon glow button variants */
+  .btn-neon {
+    @apply relative overflow-hidden;
+    background: var(--gradient-primary);
+    box-shadow: var(--shadow-neon);
+    transition: var(--transition-smooth);
+  }
+  
+  .btn-neon:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-neon), 0 10px 20px hsl(280 100% 60% / 0.3);
+  }
+  
+  .btn-secondary-neon {
+    @apply relative overflow-hidden;
+    background: var(--gradient-secondary);
+    box-shadow: var(--shadow-cyan);
+    transition: var(--transition-smooth);
+  }
+  
+  .btn-secondary-neon:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-cyan), 0 10px 20px hsl(190 100% 60% / 0.3);
+  }
+
+  /* Capture button with pulse animation */
+  .capture-btn {
+    @apply relative w-20 h-20 rounded-full border-4 border-white/30 bg-white/10 backdrop-blur-sm;
+    animation: pulse-capture 2s ease-in-out infinite;
+  }
+  
+  .capture-btn::before {
+    content: '';
+    @apply absolute inset-2 rounded-full bg-white;
+  }
+
+  /* Card with neon border */
+  .card-neon {
+    @apply relative overflow-hidden rounded-2xl border border-primary/30;
+    background: linear-gradient(145deg, hsl(240 10% 8% / 0.9), hsl(240 10% 12% / 0.9));
+    backdrop-filter: blur(10px);
+    box-shadow: 
+      inset 0 1px 0 hsl(280 100% 60% / 0.1),
+      0 4px 20px hsl(280 100% 60% / 0.1);
+  }
+
+  /* Success animation */
+  .success-bounce {
+    animation: success-bounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  /* Shimmer loading effect */
+  .shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(280 100% 60% / 0.2) 50%,
+      transparent 100%
+    );
+    animation: shimmer-move 1.5s infinite;
+  }
+}
+
+@layer utilities {
+  /* Custom keyframes */
+  @keyframes sparkle-move {
+    0%, 100% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(10px, -10px) rotate(90deg); }
+    50% { transform: translate(-5px, 10px) rotate(180deg); }
+    75% { transform: translate(-10px, -5px) rotate(270deg); }
+  }
+  
+  @keyframes pulse-capture {
+    0%, 100% { 
+      box-shadow: 0 0 0 0 hsl(280 100% 60% / 0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 20px hsl(280 100% 60% / 0);
+    }
+  }
+  
+  @keyframes success-bounce {
+    0% { transform: scale(0.3) rotate(-10deg); opacity: 0; }
+    50% { transform: scale(1.1) rotate(5deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+  
+  @keyframes shimmer-move {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  /* Gradient text utilities */
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .text-gradient-party {
+    background: var(--gradient-party);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 }
