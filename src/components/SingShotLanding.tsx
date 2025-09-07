@@ -1,22 +1,21 @@
 import { useState } from 'react';
 import { Camera, Sparkles, Zap, Users, ArrowRight, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
 interface SingShotLandingProps {
   onStartCapture: () => void;
   onAdminAccess: () => void;
 }
-
-const SingShotLanding = ({ onStartCapture, onAdminAccess }: SingShotLandingProps) => {
+const SingShotLanding = ({
+  onStartCapture,
+  onAdminAccess
+}: SingShotLandingProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Trigger animation on component mount
   useState(() => {
     setTimeout(() => setIsLoaded(true), 100);
   });
-
-  return (
-    <div className="min-h-screen sparkle-bg flex flex-col relative overflow-hidden">
+  return <div className="min-h-screen sparkle-bg flex flex-col relative overflow-hidden">
       {/* Header */}
       <header className="p-4 flex justify-between items-center relative z-10">
         <div className="flex items-center gap-2">
@@ -26,12 +25,7 @@ const SingShotLanding = ({ onStartCapture, onAdminAccess }: SingShotLandingProps
           <span className="text-lg font-bold text-gradient">SingShot</span>
         </div>
         
-        <Button 
-          variant="ghost" 
-          size="sm"
-          onClick={onAdminAccess}
-          className="text-muted-foreground hover:text-foreground"
-        >
+        <Button variant="ghost" size="sm" onClick={onAdminAccess} className="text-muted-foreground hover:text-foreground">
           Admin Area
         </Button>
       </header>
@@ -39,26 +33,16 @@ const SingShotLanding = ({ onStartCapture, onAdminAccess }: SingShotLandingProps
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center justify-center px-6 pb-12 relative z-10">
         {/* Logo and Title */}
-        <div className={`text-center mb-8 transform transition-all duration-1000 ${
-          isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
+        <div className={`text-center mb-8 transform transition-all duration-1000 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           {/* London Karaoke Club Logo */}
           <div className="mb-6">
-            <img 
-              src="/lovable-uploads/366859a5-6653-4baa-a424-7e56a368b7d4.png" 
-              alt="London Karaoke Club" 
-              className="w-20 h-20 mx-auto rounded-full shadow-[0_0_30px_hsl(320_100%_65%/0.4)]"
-            />
+            
           </div>
           
           <div className="relative mb-6">
             <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-primary via-secondary to-accent p-1 shadow-[0_0_40px_hsl(280_100%_60%/0.4)]">
               <div className="w-full h-full rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center overflow-hidden">
-                <img 
-                  src="/lovable-uploads/366859a5-6653-4baa-a424-7e56a368b7d4.png" 
-                  alt="London Karaoke Club" 
-                  className="w-16 h-16 rounded-full object-cover"
-                />
+                <img src="/lovable-uploads/366859a5-6653-4baa-a424-7e56a368b7d4.png" alt="London Karaoke Club" className="w-16 h-16 rounded-full object-cover" />
               </div>
             </div>
             <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accent animate-pulse">
@@ -75,9 +59,7 @@ const SingShotLanding = ({ onStartCapture, onAdminAccess }: SingShotLandingProps
         </div>
 
         {/* Features Grid */}
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 max-w-2xl w-full transform transition-all duration-1000 delay-300 ${
-          isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-4 mb-12 max-w-2xl w-full transform transition-all duration-1000 delay-300 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           <div className="card-neon p-6 text-center">
             <Camera className="w-8 h-8 text-primary mx-auto mb-3" />
             <h3 className="font-semibold text-foreground mb-2">Capture</h3>
@@ -104,41 +86,30 @@ const SingShotLanding = ({ onStartCapture, onAdminAccess }: SingShotLandingProps
         </div>
 
         {/* CTA Section */}
-        <div className={`text-center transform transition-all duration-1000 delay-500 ${
-          isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
-        }`}>
+        <div className={`text-center transform transition-all duration-1000 delay-500 ${isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}>
           <h2 className="text-2xl font-bold text-gradient mb-6">
             Ready to create your SingShot?
           </h2>
           
           <div className="space-y-4">
-            <Button 
-              onClick={onStartCapture}
-              size="lg"
-              className="btn-neon text-primary-foreground font-bold text-lg px-8 py-6 rounded-2xl group"
-            >
+            <Button onClick={onStartCapture} size="lg" className="btn-neon text-primary-foreground font-bold text-lg px-8 py-6 rounded-2xl group">
               <Camera className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
               Start Capturing
               <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
             </Button>
             
-            <Button 
-              onClick={() => {
-                const shareText = "Check out SingShot at @londonkaraoke.club #londonkaraoke.club - AI-powered karaoke moments!";
-                if (navigator.share) {
-                  navigator.share({
-                    title: 'SingShot - AI Karaoke Moments',
-                    text: shareText,
-                    url: window.location.href
-                  });
-                } else {
-                  navigator.clipboard?.writeText(`${shareText} ${window.location.href}`);
-                }
-              }}
-              variant="outline"
-              size="lg"
-              className="border-accent/30 text-accent hover:bg-accent/10 hover:border-accent font-semibold px-6 py-3 rounded-2xl group"
-            >
+            <Button onClick={() => {
+            const shareText = "Check out SingShot at @londonkaraoke.club #londonkaraoke.club - AI-powered karaoke moments!";
+            if (navigator.share) {
+              navigator.share({
+                title: 'SingShot - AI Karaoke Moments',
+                text: shareText,
+                url: window.location.href
+              });
+            } else {
+              navigator.clipboard?.writeText(`${shareText} ${window.location.href}`);
+            }
+          }} variant="outline" size="lg" className="border-accent/30 text-accent hover:bg-accent/10 hover:border-accent font-semibold px-6 py-3 rounded-2xl group">
               <Share2 className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
               Share SingShot
             </Button>
@@ -156,8 +127,6 @@ const SingShotLanding = ({ onStartCapture, onAdminAccess }: SingShotLandingProps
           Powered by London Karaoke Club
         </p>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default SingShotLanding;
