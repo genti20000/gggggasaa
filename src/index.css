@@ -8,32 +8,32 @@ All colors MUST be HSL. Electric, neon-inspired palette for nightclub energy.
 
 @layer base {
   :root {
-    /* Dark theme base - nightclub atmosphere */
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
+    /* Rich nightclub atmosphere - deep purples and magentas */
+    --background: 260 20% 8%;
+    --foreground: 300 20% 95%;
 
-    --card: 240 10% 8%;
-    --card-foreground: 0 0% 98%;
+    --card: 260 15% 12%;
+    --card-foreground: 300 15% 95%;
 
-    --popover: 240 10% 8%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 260 15% 12%;
+    --popover-foreground: 300 15% 95%;
 
     /* Electric Purple Primary - main brand color */
     --primary: 280 100% 60%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 280 100% 70%;
 
-    /* Electric Cyan Secondary */
-    --secondary: 190 100% 60%;
+    /* Hot Pink Secondary */
+    --secondary: 320 100% 65%;
     --secondary-foreground: 0 0% 100%;
 
     /* Muted variants */
-    --muted: 240 10% 15%;
-    --muted-foreground: 240 5% 65%;
+    --muted: 260 15% 20%;
+    --muted-foreground: 260 10% 70%;
 
-    /* Gold accent for special highlights */
-    --accent: 45 100% 65%;
-    --accent-foreground: 240 10% 3.9%;
+    /* Electric Blue accent for special highlights */
+    --accent: 200 100% 65%;
+    --accent-foreground: 260 20% 8%;
 
     /* Success and error states */
     --destructive: 0 84.2% 60.2%;
@@ -42,19 +42,19 @@ All colors MUST be HSL. Electric, neon-inspired palette for nightclub energy.
     --success-foreground: 0 0% 100%;
 
     /* Interface elements */
-    --border: 240 10% 20%;
-    --input: 240 10% 15%;
+    --border: 260 15% 25%;
+    --input: 260 15% 18%;
     --ring: 280 100% 60%;
 
     /* Design system extensions */
-    --gradient-primary: linear-gradient(135deg, hsl(280 100% 60%), hsl(190 100% 60%));
-    --gradient-secondary: linear-gradient(45deg, hsl(280 100% 60%), hsl(45 100% 65%));
-    --gradient-party: linear-gradient(135deg, hsl(280 100% 60%) 0%, hsl(315 100% 65%) 25%, hsl(190 100% 60%) 50%, hsl(45 100% 65%) 75%, hsl(280 100% 60%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(280 100% 60%), hsl(320 100% 65%));
+    --gradient-secondary: linear-gradient(45deg, hsl(280 100% 60%), hsl(200 100% 65%));
+    --gradient-party: linear-gradient(135deg, hsl(280 100% 60%) 0%, hsl(320 100% 65%) 25%, hsl(200 100% 65%) 50%, hsl(260 100% 70%) 75%, hsl(280 100% 60%) 100%);
     
     /* Neon glow effects */
     --shadow-neon: 0 0 20px hsl(280 100% 60% / 0.5);
-    --shadow-cyan: 0 0 20px hsl(190 100% 60% / 0.5);
-    --shadow-gold: 0 0 20px hsl(45 100% 65% / 0.5);
+    --shadow-pink: 0 0 20px hsl(320 100% 65% / 0.5);
+    --shadow-blue: 0 0 20px hsl(200 100% 65% / 0.5);
     
     /* Smooth transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -144,9 +144,9 @@ All colors MUST be HSL. Electric, neon-inspired palette for nightclub energy.
     bottom: 0;
     background-image: 
       radial-gradient(circle at 20% 30%, hsl(280 100% 60% / 0.3) 0%, transparent 50%),
-      radial-gradient(circle at 80% 20%, hsl(190 100% 60% / 0.3) 0%, transparent 50%),
-      radial-gradient(circle at 40% 70%, hsl(45 100% 65% / 0.2) 0%, transparent 50%),
-      radial-gradient(circle at 90% 80%, hsl(315 100% 65% / 0.2) 0%, transparent 50%);
+      radial-gradient(circle at 80% 20%, hsl(320 100% 65% / 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 40% 70%, hsl(200 100% 65% / 0.2) 0%, transparent 50%),
+      radial-gradient(circle at 90% 80%, hsl(260 100% 70% / 0.2) 0%, transparent 50%);
     animation: sparkle-move 20s ease-in-out infinite;
   }
 
@@ -166,13 +166,13 @@ All colors MUST be HSL. Electric, neon-inspired palette for nightclub energy.
   .btn-secondary-neon {
     @apply relative overflow-hidden;
     background: var(--gradient-secondary);
-    box-shadow: var(--shadow-cyan);
+    box-shadow: var(--shadow-pink);
     transition: var(--transition-smooth);
   }
   
   .btn-secondary-neon:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-cyan), 0 10px 20px hsl(190 100% 60% / 0.3);
+    box-shadow: var(--shadow-pink), 0 10px 20px hsl(320 100% 65% / 0.3);
   }
 
   /* Capture button with pulse animation */

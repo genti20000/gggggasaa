@@ -47,14 +47,18 @@ const SingShotLanding = ({ onStartCapture, onAdminAccess }: SingShotLandingProps
             <img 
               src="/lovable-uploads/366859a5-6653-4baa-a424-7e56a368b7d4.png" 
               alt="London Karaoke Club" 
-              className="w-20 h-20 mx-auto rounded-full shadow-[0_0_30px_hsl(45_100%_65%/0.4)]"
+              className="w-20 h-20 mx-auto rounded-full shadow-[0_0_30px_hsl(320_100%_65%/0.4)]"
             />
           </div>
           
           <div className="relative mb-6">
             <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-primary via-secondary to-accent p-1 shadow-[0_0_40px_hsl(280_100%_60%/0.4)]">
-              <div className="w-full h-full rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center">
-                <Camera className="w-10 h-10 text-primary" />
+              <div className="w-full h-full rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center overflow-hidden">
+                <img 
+                  src="/lovable-uploads/366859a5-6653-4baa-a424-7e56a368b7d4.png" 
+                  alt="London Karaoke Club" 
+                  className="w-16 h-16 rounded-full object-cover"
+                />
               </div>
             </div>
             <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-accent animate-pulse">
