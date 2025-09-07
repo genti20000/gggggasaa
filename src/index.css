@@ -175,15 +175,16 @@ All colors MUST be HSL. Electric, neon-inspired palette for nightclub energy.
     box-shadow: var(--shadow-pink), 0 10px 20px hsl(320 100% 65% / 0.3);
   }
 
-  /* Capture button with pulse animation */
+  /* Capture button with heart-to-box pulsating animation */
   .capture-btn {
-    @apply relative w-20 h-20 rounded-full border-4 border-white/30 bg-white/10 backdrop-blur-sm;
-    animation: pulse-capture 2s ease-in-out infinite;
+    @apply relative w-20 h-20 border-4 border-white/30 bg-white/10 backdrop-blur-sm;
+    animation: heart-to-box-pulse 2s ease-in-out infinite;
   }
   
   .capture-btn::before {
     content: '';
-    @apply absolute inset-2 rounded-full bg-white;
+    @apply absolute inset-2 bg-white;
+    animation: heart-to-box-shape 2s ease-in-out infinite;
   }
 
   /* Card with neon border */
@@ -233,12 +234,45 @@ All colors MUST be HSL. Electric, neon-inspired palette for nightclub energy.
     75% { transform: translate(-10px, -5px) rotate(270deg); }
   }
   
-  @keyframes pulse-capture {
+  @keyframes heart-to-box-pulse {
     0%, 100% { 
-      box-shadow: 0 0 0 0 hsl(280 100% 60% / 0.7);
+      transform: scale(1);
+      box-shadow: 0 0 0 0 hsl(320 100% 65% / 0.7);
+      border-radius: 50%;
+    }
+    25% {
+      transform: scale(1.1);
+      box-shadow: 0 0 0 10px hsl(320 100% 65% / 0.4);
+      border-radius: 50% 50% 0 0;
     }
     50% {
-      box-shadow: 0 0 0 20px hsl(280 100% 60% / 0);
+      transform: scale(1.2);
+      box-shadow: 0 0 0 20px hsl(320 100% 65% / 0);
+      border-radius: 20% 20% 20% 20%;
+    }
+    75% {
+      transform: scale(1.1);
+      box-shadow: 0 0 0 10px hsl(280 100% 60% / 0.4);
+      border-radius: 10%;
+    }
+  }
+  
+  @keyframes heart-to-box-shape {
+    0%, 100% { 
+      border-radius: 50%;
+      transform: rotate(0deg);
+    }
+    25% {
+      border-radius: 50% 50% 0 0;
+      transform: rotate(-5deg);
+    }
+    50% {
+      border-radius: 20%;
+      transform: rotate(5deg);
+    }
+    75% {
+      border-radius: 10%;
+      transform: rotate(-2deg);
     }
   }
   
