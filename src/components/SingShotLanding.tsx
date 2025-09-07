@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Camera, Sparkles, Zap, Users, ArrowRight } from 'lucide-react';
+import { Camera, Sparkles, Zap, Users, ArrowRight, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface SingShotLandingProps {
@@ -42,6 +42,15 @@ const SingShotLanding = ({ onStartCapture, onAdminAccess }: SingShotLandingProps
         <div className={`text-center mb-8 transform transition-all duration-1000 ${
           isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}>
+          {/* London Karaoke Club Logo */}
+          <div className="mb-6">
+            <img 
+              src="/lovable-uploads/366859a5-6653-4baa-a424-7e56a368b7d4.png" 
+              alt="London Karaoke Club" 
+              className="w-20 h-20 mx-auto rounded-full shadow-[0_0_30px_hsl(45_100%_65%/0.4)]"
+            />
+          </div>
+          
           <div className="relative mb-6">
             <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-primary via-secondary to-accent p-1 shadow-[0_0_40px_hsl(280_100%_60%/0.4)]">
               <div className="w-full h-full rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center">
@@ -98,15 +107,38 @@ const SingShotLanding = ({ onStartCapture, onAdminAccess }: SingShotLandingProps
             Ready to create your SingShot?
           </h2>
           
-          <Button 
-            onClick={onStartCapture}
-            size="lg"
-            className="btn-neon text-primary-foreground font-bold text-lg px-8 py-6 rounded-2xl group"
-          >
-            <Camera className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
-            Start Capturing
-            <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <div className="space-y-4">
+            <Button 
+              onClick={onStartCapture}
+              size="lg"
+              className="btn-neon text-primary-foreground font-bold text-lg px-8 py-6 rounded-2xl group"
+            >
+              <Camera className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
+              Start Capturing
+              <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
+            </Button>
+            
+            <Button 
+              onClick={() => {
+                const shareText = "Check out SingShot at @londonkaraoke.club #londonkaraoke.club - AI-powered karaoke moments!";
+                if (navigator.share) {
+                  navigator.share({
+                    title: 'SingShot - AI Karaoke Moments',
+                    text: shareText,
+                    url: window.location.href
+                  });
+                } else {
+                  navigator.clipboard?.writeText(`${shareText} ${window.location.href}`);
+                }
+              }}
+              variant="outline"
+              size="lg"
+              className="border-accent/30 text-accent hover:bg-accent/10 hover:border-accent font-semibold px-6 py-3 rounded-2xl group"
+            >
+              <Share2 className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+              Share SingShot
+            </Button>
+          </div>
           
           <p className="text-sm text-muted-foreground mt-4 max-w-sm">
             Takes less than 30 seconds • No signup required • Instant AI magic
