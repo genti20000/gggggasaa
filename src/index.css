@@ -2,38 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-/* SingShot Design System - Vibrant Karaoke Party Theme
-All colors MUST be HSL. Electric, neon-inspired palette for nightclub energy.
+/* SingShot Design System - Bold Black & Yellow Theme
+All colors MUST be HSL. High contrast black and electric yellow for maximum impact.
 */
 
 @layer base {
   :root {
-    /* Rich nightclub atmosphere - deep purples and magentas */
-    --background: 260 20% 8%;
-    --foreground: 300 20% 95%;
+    /* Bold black background with subtle variations */
+    --background: 0 0% 8%;
+    --foreground: 45 100% 95%;
 
-    --card: 260 15% 12%;
-    --card-foreground: 300 15% 95%;
+    --card: 0 0% 12%;
+    --card-foreground: 45 100% 95%;
 
-    --popover: 260 15% 12%;
-    --popover-foreground: 300 15% 95%;
+    --popover: 0 0% 12%;
+    --popover-foreground: 45 100% 95%;
 
-    /* Electric Purple Primary - main brand color */
-    --primary: 280 100% 60%;
-    --primary-foreground: 0 0% 100%;
-    --primary-glow: 280 100% 70%;
+    /* Electric Yellow Primary - main brand color */
+    --primary: 45 100% 50%;
+    --primary-foreground: 0 0% 8%;
+    --primary-glow: 45 100% 60%;
 
-    /* Hot Pink Secondary */
-    --secondary: 320 100% 65%;
-    --secondary-foreground: 0 0% 100%;
+    /* Bright Yellow Secondary */
+    --secondary: 50 100% 60%;
+    --secondary-foreground: 0 0% 8%;
 
-    /* Muted variants */
-    --muted: 260 15% 20%;
-    --muted-foreground: 260 10% 70%;
+    /* Muted variants - darker grays */
+    --muted: 0 0% 20%;
+    --muted-foreground: 45 20% 70%;
 
-    /* Electric Blue accent for special highlights */
-    --accent: 200 100% 65%;
-    --accent-foreground: 260 20% 8%;
+    /* Amber accent for special highlights */
+    --accent: 40 100% 55%;
+    --accent-foreground: 0 0% 8%;
 
     /* Success and error states */
     --destructive: 0 84.2% 60.2%;
@@ -47,14 +47,14 @@ All colors MUST be HSL. Electric, neon-inspired palette for nightclub energy.
     --ring: 280 100% 60%;
 
     /* Design system extensions */
-    --gradient-primary: linear-gradient(135deg, hsl(280 100% 60%), hsl(320 100% 65%));
-    --gradient-secondary: linear-gradient(45deg, hsl(280 100% 60%), hsl(200 100% 65%));
-    --gradient-party: linear-gradient(135deg, hsl(280 100% 60%) 0%, hsl(320 100% 65%) 25%, hsl(200 100% 65%) 50%, hsl(260 100% 70%) 75%, hsl(280 100% 60%) 100%);
+    --gradient-primary: linear-gradient(135deg, hsl(45 100% 50%), hsl(50 100% 60%));
+    --gradient-secondary: linear-gradient(45deg, hsl(40 100% 55%), hsl(45 100% 50%));
+    --gradient-party: linear-gradient(135deg, hsl(45 100% 50%) 0%, hsl(50 100% 60%) 25%, hsl(40 100% 55%) 50%, hsl(48 100% 65%) 75%, hsl(45 100% 50%) 100%);
     
     /* Neon glow effects */
-    --shadow-neon: 0 0 20px hsl(280 100% 60% / 0.5);
-    --shadow-pink: 0 0 20px hsl(320 100% 65% / 0.5);
-    --shadow-blue: 0 0 20px hsl(200 100% 65% / 0.5);
+    --shadow-neon: 0 0 20px hsl(45 100% 50% / 0.6);
+    --shadow-yellow: 0 0 20px hsl(50 100% 60% / 0.5);
+    --shadow-amber: 0 0 20px hsl(40 100% 55% / 0.5);
     
     /* Smooth transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);

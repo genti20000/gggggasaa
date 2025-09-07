@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Sparkles, Heart, Users } from 'lucide-react';
+import { Sparkles, Heart, Users, Share2 } from 'lucide-react';
 
 interface Submission {
   id: string;
@@ -40,7 +40,7 @@ const LiveGallery = () => {
         setCurrentIndex(prev => (prev + 1) % approvedSubmissions.length);
         setIsVisible(true);
       }, 500);
-    }, 8000); // Change slide every 8 seconds
+    }, 3000); // Change slide every 3 seconds
 
     return () => clearInterval(interval);
   }, [approvedSubmissions.length]);
@@ -118,13 +118,13 @@ const LiveGallery = () => {
                 <img
                   src={currentSubmission.data}
                   alt={`${currentSubmission.nickname}'s karaoke moment`}
-                  className="w-full h-[60vh] object-cover"
+                  className="w-full h-screen object-cover"
                 />
               ) : (
                 <video
                   key={currentSubmission.id}
                   src={currentSubmission.data}
-                  className="w-full h-[60vh] object-cover"
+                  className="w-full h-screen object-cover"
                   autoPlay
                   muted
                   loop
@@ -182,13 +182,33 @@ const LiveGallery = () => {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="absolute bottom-0 left-0 right-0 p-6">
+      {/* Footer with prominent share button */}
+      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
         <div className="text-center">
-          <p className="text-muted-foreground text-sm mb-2">
+          <div className="mb-4">
+            <button
+              onClick={() => {
+                const shareText = "Check out SingShot Live at @londonkaraoke.club #londonkaraoke.club - AI-powered karaoke moments!";
+                if (navigator.share) {
+                  navigator.share({
+                    title: 'SingShot Live - AI Karaoke Moments',
+                    text: shareText,
+                    url: window.location.href
+                  });
+                } else {
+                  navigator.clipboard?.writeText(`${shareText} ${window.location.href}`);
+                }
+              }}
+              className="bg-yellow-400 text-black hover:bg-yellow-300 font-bold py-4 px-8 rounded-full text-lg shadow-[0_0_30px_hsl(45_100%_50%/0.6)] hover:shadow-[0_0_40px_hsl(45_100%_50%/0.8)] transform hover:scale-105 transition-all duration-300 animate-pulse"
+            >
+              <Share2 className="w-6 h-6 mr-3 inline" />
+              Share SingShot Live
+            </button>
+          </div>
+          <p className="text-yellow-300 text-sm mb-2 font-semibold">
             Want to share your moment? Create a SingShot at the bar!
           </p>
-          <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground/60">
+          <div className="flex items-center justify-center gap-4 text-xs text-yellow-400/80">
             <span>• AI-Powered Captions</span>
             <span>• Instant Sharing</span>
             <span>• Live Gallery</span>
@@ -196,9 +216,11 @@ const LiveGallery = () => {
         </div>
       </div>
 
-      {/* Ambient lighting effects */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse opacity-60" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse opacity-60 animation-delay-1000" />
+      {/* Random ambient lighting effects */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl animate-bounce opacity-60" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-yellow-300/15 rounded-full blur-3xl animate-pulse opacity-60" />
+      <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-black/30 rounded-full blur-2xl animate-ping opacity-40" />
+      <div className="absolute bottom-1/3 left-1/2 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl animate-spin opacity-50" style={{animationDuration: '20s'}} />
     </div>
   );
 };
