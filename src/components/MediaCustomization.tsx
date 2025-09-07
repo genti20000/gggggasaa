@@ -111,16 +111,22 @@ const MediaCustomization = ({ media, onBack, onSubmit }: MediaCustomizationProps
       caption: selectedCaption,
       socialConsent,
       timestamp: new Date().toISOString(),
-      status: 'pending'
+      status: 'approved',
+      reviewedBy: 'Auto-Approved',
+      reviewedAt: new Date().toISOString()
     };
 
     // Save to localStorage (simulating backend)
     const existingSubmissions = JSON.parse(localStorage.getItem('singshot_submissions') || '[]');
     existingSubmissions.push(submission);
     localStorage.setItem('singshot_submissions', JSON.stringify(existingSubmissions));
+    
+    // Auto-sync to gallery since it's approved
+    const approvedSubmissions = existingSubmissions.filter(s => s.status === 'approved');
+    localStorage.setItem('singshot_gallery', JSON.stringify(approvedSubmissions));
 
     onSubmit(submission);
-    toast.success('SingShot submitted for review! 🚀');
+    toast.success('SingShot auto-approved and now live! 🚀');
   }, [media, nickname, eventType, selectedCaption, selectedFilter, socialConsent, onSubmit]);
 
   return (
@@ -309,7 +315,7 @@ const MediaCustomization = ({ media, onBack, onSubmit }: MediaCustomizationProps
         </Button>
 
         <p className="text-center text-xs text-muted-foreground mt-4">
-          Your SingShot will be reviewed by our team before appearing on the live display
+          Your SingShot will be instantly approved and shown on the live display
         </p>
       </div>
 
