@@ -6,6 +6,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
+import { useToast } from '@/hooks/use-toast';
+import ShareModal from './ShareModal';
 
 interface MediaData {
   type: 'photo' | 'video';
@@ -48,7 +50,10 @@ const MediaCustomization = ({ media, onBack, onSubmit }: MediaCustomizationProps
   const [selectedCaption, setSelectedCaption] = useState('');
   const [isLoadingCaptions, setIsLoadingCaptions] = useState(false);
   const [socialConsent, setSocialConsent] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false);
+  const [lastSubmission, setLastSubmission] = useState<any>(null);
   
+  const { toast: toastHook } = useToast();
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -125,8 +130,14 @@ const MediaCustomization = ({ media, onBack, onSubmit }: MediaCustomizationProps
     const approvedSubmissions = existingSubmissions.filter(s => s.status === 'approved');
     localStorage.setItem('singshot_gallery', JSON.stringify(approvedSubmissions));
 
-    onSubmit(submission);
-    toast.success('SingShot auto-approved and now live! 🚀');
+    setLastSubmission(submission);
+    setShowShareModal(true);
+    
+    // Keep the success message but make it shorter since share modal will show
+    toastHook({
+      title: "SingShot Live! 🚀",
+      description: "Your moment is now in the gallery!",
+    });
   }, [media, nickname, eventType, selectedCaption, selectedFilter, socialConsent, onSubmit]);
 
   return (
@@ -318,6 +329,15 @@ const MediaCustomization = ({ media, onBack, onSubmit }: MediaCustomizationProps
           Your SingShot will be instantly approved and shown on the live display
         </p>
       </div>
+
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => {
+          setShowShareModal(false);
+          onSubmit(lastSubmission);
+        }}
+        submission={lastSubmission}
+      />
 
       {/* Hidden canvas for image processing */}
       <canvas ref={canvasRef} className="hidden" />

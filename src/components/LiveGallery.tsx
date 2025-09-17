@@ -1,5 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Sparkles, Heart, Users, Share2 } from 'lucide-react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { Button } from '@/components/ui/button';
+import ScrollingTicker from '@/components/ScrollingTicker';
+import HenDoLeaderboard from '@/components/HenDoLeaderboard';
+import EmojiReactions from '@/components/EmojiReactions';
+import { Share2, Sparkles, Zap } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 interface Submission {
   id: string;
@@ -19,6 +24,8 @@ const LiveGallery = () => {
   const [approvedSubmissions, setApprovedSubmissions] = useState<Submission[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [showSpotlight, setShowSpotlight] = useState(false);
+  const { toast } = useToast();
 
   // Load approved submissions from localStorage
   const loadApprovedSubmissions = useCallback(() => {
@@ -52,25 +59,57 @@ const LiveGallery = () => {
     return () => clearInterval(interval);
   }, [loadApprovedSubmissions]);
 
+  // Random spotlight effect
+  useEffect(() => {
+    const spotlightInterval = setInterval(() => {
+      if (approvedSubmissions.length > 0) {
+        setShowSpotlight(true);
+        setTimeout(() => setShowSpotlight(false), 5000);
+      }
+    }, 60000); // Every minute
+
+    return () => clearInterval(spotlightInterval);
+  }, [approvedSubmissions.length]);
+
+  const handleShare = useCallback(async () => {
+    try {
+      await navigator.share({
+        title: 'SingShot Live - Hen Party Magic! 🎤',
+        text: 'Check out this amazing karaoke hen party at @LondonKaraokeClub! #HenDoLegends #SingShot',
+        url: window.location.href,
+      });
+    } catch (error) {
+      await navigator.clipboard.writeText(`SingShot Live - Amazing hen party karaoke! Check it out: ${window.location.href} #HenDoLegends @LondonKaraokeClub`);
+      toast({
+        title: "Link copied! 📋",
+        description: "Share it on Instagram & tag us for prizes!",
+      });
+    }
+  }, [toast]);
+
   if (approvedSubmissions.length === 0) {
     return (
-      <div className="min-h-screen bg-background sparkle-bg flex items-center justify-center">
-        <div className="text-center max-w-md mx-auto px-6">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-primary via-secondary to-accent p-1 shadow-[0_0_60px_hsl(280_100%_60%/0.4)]">
-            <div className="w-full h-full rounded-full bg-background/90 backdrop-blur-sm flex items-center justify-center">
-              <Sparkles className="w-10 h-10 text-primary animate-pulse" />
+      <div className="min-h-screen bg-gradient-to-br from-black via-primary/20 to-yellow-400/20 flex flex-col">
+        <ScrollingTicker />
+        
+        <div className="flex-1 flex flex-col items-center justify-center p-8">
+          <div className="text-center space-y-6 max-w-md">
+            <div className="animate-pulse">
+              <Sparkles className="w-24 h-24 text-yellow-400 mx-auto mb-4" />
             </div>
-          </div>
-          
-          <h1 className="text-4xl font-black text-gradient-party mb-4">
-            SingShot Live
-          </h1>
-          <p className="text-xl text-muted-foreground mb-6">
-            Waiting for amazing karaoke moments...
-          </p>
-          <div className="flex items-center justify-center gap-2 text-muted-foreground">
-            <Users className="w-5 h-5" />
-            <span>Create your first SingShot to get started!</span>
+            <h1 className="text-6xl font-bold text-white mb-4 animate-bounce">
+              SingShot Live
+            </h1>
+            <p className="text-xl text-yellow-400 font-semibold animate-pulse">
+              🎤 Hen Party Magic Coming Soon! 🎤
+            </p>
+            <p className="text-white/80">
+              Capture your karaoke moments & they'll appear here instantly!
+            </p>
+            
+            <div className="mt-8">
+              <HenDoLeaderboard />
+            </div>
           </div>
         </div>
       </div>
@@ -80,147 +119,126 @@ const LiveGallery = () => {
   const currentSubmission = approvedSubmissions[currentIndex];
 
   return (
-    <div className="min-h-screen bg-background sparkle-bg flex flex-col relative overflow-hidden">
-      {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-primary-foreground" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-black text-gradient">SingShot Live</h1>
-              <p className="text-sm text-muted-foreground">London Karaoke Club</p>
-            </div>
-          </div>
-          
-          <div className="text-right">
-            <div className="flex items-center gap-2 text-primary font-semibold">
-              <div className="w-3 h-3 bg-success rounded-full animate-pulse" />
-              <span>LIVE</span>
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {approvedSubmissions.length} moments shared tonight
-            </p>
-          </div>
-        </div>
+    <div className="min-h-screen bg-gradient-to-br from-black via-primary/10 to-yellow-400/10 relative overflow-hidden">
+      {/* Animated background effects */}
+      <div className="absolute inset-0 opacity-20">
+        <div className="animate-pulse absolute top-10 left-10 w-32 h-32 bg-yellow-400/30 rounded-full blur-xl"></div>
+        <div className="animate-pulse absolute bottom-20 right-20 w-48 h-48 bg-primary/30 rounded-full blur-2xl animation-delay-2000"></div>
+        <div className="animate-bounce absolute top-1/2 left-1/4 w-16 h-16 bg-yellow-400/40 rounded-full blur-lg animation-delay-4000"></div>
       </div>
 
-      {/* Main Content */}
-      <div className={`flex-1 flex items-center justify-center p-6 pt-24 transition-all duration-500 ${
-        isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
-      }`}>
-        <div className="max-w-4xl w-full">
-          {/* Media Display */}
-          <div className="relative mb-8">
-            <div className="relative rounded-3xl overflow-hidden shadow-[0_20px_60px_hsl(280_100%_60%/0.3)] bg-card border border-primary/30">
-              {currentSubmission.type === 'photo' ? (
-                <img
-                  src={currentSubmission.data}
-                  alt={`${currentSubmission.nickname}'s karaoke moment`}
-                  className="w-full h-screen object-cover"
-                />
-              ) : (
-                <video
-                  key={currentSubmission.id}
-                  src={currentSubmission.data}
-                  className="w-full h-screen object-cover"
-                  autoPlay
-                  muted
-                  loop
-                />
-              )}
-              
-              {/* Overlay gradient for better text readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              
-              {/* Content overlay */}
-              <div className="absolute bottom-0 left-0 right-0 p-8">
-                <div className="max-w-2xl">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="flex items-center gap-2">
-                      <Heart className="w-5 h-5 text-accent fill-current" />
-                      <span className="font-bold text-xl text-white">{currentSubmission.nickname}</span>
-                    </div>
-                    <div className="px-3 py-1 bg-primary/80 backdrop-blur-sm rounded-full text-primary-foreground text-sm font-medium">
-                      {currentSubmission.eventType}
-                    </div>
-                  </div>
-                  
-                  <p className="text-white text-lg font-medium leading-relaxed mb-4">
-                    {currentSubmission.caption}
-                  </p>
-                  
-                  <p className="text-white/70 text-sm">
-                    {new Date(currentSubmission.timestamp).toLocaleTimeString()} • Tonight at LKC
-                  </p>
+      <ScrollingTicker />
+
+      {/* Main content */}
+      <div className="relative z-10 flex flex-col lg:flex-row min-h-[calc(100vh-3rem)]">
+        {/* Left side - Gallery */}
+        <div className="flex-1 lg:w-2/3 relative">
+          {/* Header */}
+          <div className="absolute top-0 left-0 right-0 z-20 bg-gradient-to-b from-black/80 to-transparent p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h1 className="text-4xl font-bold text-white mb-2">SingShot Live</h1>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+                  <span className="text-red-400 font-semibold">LIVE</span>
+                  <span className="text-white/70">•</span>
+                  <span className="text-white/70">{approvedSubmissions.length} moments</span>
                 </div>
               </div>
             </div>
-            
-            {/* Floating elements */}
-            <div className="absolute -top-4 -right-4 w-12 h-12 bg-accent rounded-full flex items-center justify-center shadow-lg animate-bounce">
-              <Sparkles className="w-6 h-6 text-accent-foreground" />
+          </div>
+
+          {/* Current submission with spotlight effect */}
+          <div className={`relative w-full h-screen transition-all duration-500 ${showSpotlight ? 'scale-105 brightness-125' : ''}`}>
+            <div className={`absolute inset-0 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+              {currentSubmission.type === 'photo' ? (
+                <img
+                  src={currentSubmission.data}
+                  alt="SingShot moment"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <video
+                  src={currentSubmission.data}
+                  autoPlay
+                  muted
+                  loop
+                  className="w-full h-full object-cover"
+                />
+              )}
+              
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              
+              {/* Content overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                <div className="mb-6">
+                  <EmojiReactions 
+                    submissionId={currentSubmission.id}
+                    onReaction={(emoji, id) => {
+                      toast({
+                        title: `${emoji} reaction added!`,
+                        description: `You reacted to ${currentSubmission.nickname}'s SingShot`,
+                      });
+                    }}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <h2 className="text-3xl font-bold animate-bounce">{currentSubmission.nickname}</h2>
+                  <p className="text-xl text-yellow-400 font-semibold">{currentSubmission.eventType}</p>
+                  {currentSubmission.caption && (
+                    <p className="text-lg text-white/90 bg-black/30 rounded-lg p-3 backdrop-blur-sm">
+                      "{currentSubmission.caption}"
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Confetti effect for new submissions */}
+              {showSpotlight && (
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="animate-pulse absolute top-1/4 left-1/4 text-6xl">🎉</div>
+                  <div className="animate-bounce absolute top-1/3 right-1/4 text-4xl animation-delay-1000">✨</div>
+                  <div className="animate-pulse absolute bottom-1/4 left-1/3 text-5xl animation-delay-2000">🎊</div>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Progress indicator */}
-          {approvedSubmissions.length > 1 && (
-            <div className="flex justify-center gap-2 mb-6">
-              {approvedSubmissions.map((_, index) => (
-                <div
-                  key={index}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    index === currentIndex 
-                      ? 'w-8 bg-primary' 
-                      : 'w-2 bg-muted-foreground/30'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
+            {approvedSubmissions.map((_, index) => (
+              <div
+                key={index}
+                className={`h-2 rounded-full transition-all duration-300 ${
+                  index === currentIndex ? 'w-8 bg-yellow-400' : 'w-2 bg-white/50'
+                }`}
+              />
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* Footer with prominent share button */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
-        <div className="text-center">
-          <div className="mb-4">
-            <button
-              onClick={() => {
-                const shareText = "Check out SingShot Live at @londonkaraoke.club #londonkaraoke.club - AI-powered karaoke moments!";
-                if (navigator.share) {
-                  navigator.share({
-                    title: 'SingShot Live - AI Karaoke Moments',
-                    text: shareText,
-                    url: window.location.href
-                  });
-                } else {
-                  navigator.clipboard?.writeText(`${shareText} ${window.location.href}`);
-                }
-              }}
-              className="bg-yellow-400 text-black hover:bg-yellow-300 font-bold py-4 px-8 rounded-full text-lg shadow-[0_0_30px_hsl(45_100%_50%/0.6)] hover:shadow-[0_0_40px_hsl(45_100%_50%/0.8)] transform hover:scale-105 transition-all duration-300 animate-pulse"
+        {/* Right side - Leaderboard */}
+        <div className="lg:w-1/3 p-6 bg-black/50 backdrop-blur-lg">
+          <HenDoLeaderboard />
+          
+          {/* Share button prominently placed */}
+          <div className="mt-8 space-y-4">
+            <Button
+              onClick={handleShare}
+              className="w-full bg-gradient-to-r from-primary via-yellow-400 to-primary text-black font-bold text-lg py-6 hover:scale-105 transition-all duration-300 animate-pulse"
             >
-              <Share2 className="w-6 h-6 mr-3 inline" />
-              Share SingShot Live
-            </button>
-          </div>
-          <p className="text-yellow-300 text-sm mb-2 font-semibold">
-            Want to share your moment? Create a SingShot at the bar!
-          </p>
-          <div className="flex items-center justify-center gap-4 text-xs text-yellow-400/80">
-            <span>• AI-Powered Captions</span>
-            <span>• Instant Sharing</span>
-            <span>• Live Gallery</span>
+              <Share2 className="w-6 h-6 mr-2" />
+              Share SingShot Live & Win Prizes! 🏆
+            </Button>
+            
+            <p className="text-center text-xs text-white/70">
+              Tag @LondonKaraokeClub & #HenDoLegends for FREE SHOTS! 🥃
+            </p>
           </div>
         </div>
       </div>
-
-      {/* Random ambient lighting effects */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-400/20 rounded-full blur-3xl animate-bounce opacity-60" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-yellow-300/15 rounded-full blur-3xl animate-pulse opacity-60" />
-      <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-black/30 rounded-full blur-2xl animate-ping opacity-40" />
-      <div className="absolute bottom-1/3 left-1/2 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl animate-spin opacity-50" style={{animationDuration: '20s'}} />
     </div>
   );
 };
