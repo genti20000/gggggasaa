@@ -309,6 +309,15 @@ All colors MUST be HSL. High contrast black and electric yellow for maximum impa
     animation-delay: 4s;
   }
 
+  @keyframes confetti-fall {
+    0% { transform: translateY(0) rotate(0deg) scale(1); opacity: 1; }
+    100% { transform: translateY(100vh) rotate(720deg) scale(0.3); opacity: 0; }
+  }
+
+  .animate-confetti-fall {
+    animation: confetti-fall 2.5s ease-in forwards;
+  }
+
   /* Gradient text utilities */
   .text-gradient {
     background: var(--gradient-primary);
