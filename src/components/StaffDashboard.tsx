@@ -5,22 +5,7 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { toast } from 'sonner';
-
-interface Submission {
-  id: string;
-  type: 'photo' | 'video';
-  data: string;
-  overlay?: string;
-  filter?: string;
-  nickname: string;
-  eventType: string;
-  caption: string;
-  socialConsent: boolean;
-  timestamp: string;
-  status: 'pending' | 'approved' | 'rejected';
-  reviewedBy?: string;
-  reviewedAt?: string;
-}
+import { localDb, type Submission } from '@/lib/localDb';
 
 interface StaffDashboardProps {
   onBack: () => void;
@@ -32,20 +17,12 @@ const StaffDashboard = ({ onBack }: StaffDashboardProps) => {
 
   // Load submissions from localStorage
   const loadSubmissions = useCallback(() => {
-    const stored = localStorage.getItem('singshot_submissions');
-    if (stored) {
-      setSubmissions(JSON.parse(stored));
-    }
+    setSubmissions(localDb.getSubmissions());
   }, []);
 
   // Save submissions to localStorage and sync with gallery
   const saveSubmissions = useCallback((updatedSubmissions: Submission[]) => {
-    localStorage.setItem('singshot_submissions', JSON.stringify(updatedSubmissions));
-    
-    // Sync approved submissions to gallery
-    const approved = updatedSubmissions.filter(s => s.status === 'approved');
-    localStorage.setItem('singshot_gallery', JSON.stringify(approved));
-    
+    localDb.saveSubmissions(updatedSubmissions);
     setSubmissions(updatedSubmissions);
   }, []);
 

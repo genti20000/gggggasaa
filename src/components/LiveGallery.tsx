@@ -4,20 +4,7 @@ import ScrollingTicker from '@/components/ScrollingTicker';
 import EmojiReactions from '@/components/EmojiReactions';
 import { Share2, Sparkles, Music, Mic, Star } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-
-interface Submission {
-  id: string;
-  type: 'photo' | 'video';
-  data: string;
-  overlay?: string;
-  filter?: string;
-  nickname: string;
-  eventType: string;
-  caption: string;
-  socialConsent: boolean;
-  timestamp: string;
-  status: 'pending' | 'approved' | 'rejected';
-}
+import { localDb, type Submission } from '@/lib/localDb';
 
 const floatingEmojis = ['🎤', '🎶', '✨', '💃', '🎉', '🔥', '💖', '⭐', '🌟', '🥳'];
 
@@ -30,10 +17,7 @@ const LiveGallery = () => {
   const { toast } = useToast();
 
   const loadApprovedSubmissions = useCallback(() => {
-    const stored = localStorage.getItem('singshot_gallery');
-    if (stored) {
-      setApprovedSubmissions(JSON.parse(stored));
-    }
+    setApprovedSubmissions(localDb.getApprovedSubmissions());
   }, []);
 
   // Auto-advance slideshow
