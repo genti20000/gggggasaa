@@ -8,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { useToast } from '@/hooks/use-toast';
 import ShareModal from './ShareModal';
+import { localDb, type Submission } from '@/lib/localDb';
 
 interface MediaData {
   type: 'photo' | 'video';
@@ -105,7 +106,7 @@ const MediaCustomization = ({ media, onBack, onSubmit }: MediaCustomizationProps
       return;
     }
 
-    const submission = {
+    const submission: Submission = {
       id: Date.now().toString(),
       type: media.type,
       data: media.data,
@@ -121,14 +122,7 @@ const MediaCustomization = ({ media, onBack, onSubmit }: MediaCustomizationProps
       reviewedAt: new Date().toISOString()
     };
 
-    // Save to localStorage (simulating backend)
-    const existingSubmissions = JSON.parse(localStorage.getItem('singshot_submissions') || '[]');
-    existingSubmissions.push(submission);
-    localStorage.setItem('singshot_submissions', JSON.stringify(existingSubmissions));
-    
-    // Auto-sync to gallery since it's approved
-    const approvedSubmissions = existingSubmissions.filter(s => s.status === 'approved');
-    localStorage.setItem('singshot_gallery', JSON.stringify(approvedSubmissions));
+    localDb.addSubmission(submission);
 
     setLastSubmission(submission);
     setShowShareModal(true);
